@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import { createElement, renderUserList } from '../render';
 import { Validation } from '../../utils/validators';
 import { User } from '../../models/User';
 import { generateId } from '../../utils/idGenerator';
@@ -37,7 +37,7 @@ export function renderUserForm(): void {
 
         form.reset();
         
-        // TODO: Тут ми пізніше додамо виклик функції оновлення списку користувачів
+        renderUserList();
     });
 
     form.append(nameInput, emailInput, errorDiv, submitBtn);

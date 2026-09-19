@@ -1,4 +1,5 @@
 import { createElement } from '../render';
+import { renderBookList } from './BookList';
 import { Validation } from '../../utils/validators';
 import { Book } from '../../models/Book';
 import { generateId } from '../../utils/idGenerator';
@@ -45,7 +46,7 @@ export function renderBookForm(): void {
 
         form.reset();
         
-        // TODO: Тут ми пізніше додамо виклик функції оновлення списку книг
+        renderBookList();
     });
 
     form.append(titleInput, authorInput, yearInput, errorDiv, submitBtn);

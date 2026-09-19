@@ -1,3 +1,6 @@
+import { userLibrary } from '../index';
+import { User } from '../models/User';
+
 export function createElement<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     classes: string[] = [],
@@ -39,4 +42,40 @@ function createSectionCard(id: string, titleText: string): HTMLDivElement {
     card.appendChild(title);
     
     return card;
+}
+
+export function renderUserList(): void {
+    const container = document.getElementById('user-list-container');
+    if (!container) return;
+
+    let listContainer = document.getElementById('user-list-items');
+    if (!listContainer) {
+        listContainer = createElement('div', ['d-flex', 'flex-column', 'gap-3', 'mt-3']);
+        listContainer.id = 'user-list-items';
+        container.appendChild(listContainer);
+    }
+    
+    listContainer.innerHTML = '';
+    const users = userLibrary.getAll();
+
+    if (users.length === 0) {
+        listContainer.appendChild(createElement('p', ['text-muted'], {}, 'Список користувачів порожній.'));
+        return;
+    }
+
+    users.forEach((user: User) => {
+        const item = createElement('div', ['d-flex', 'justify-content-between', 'align-items-center', 'border-bottom', 'pb-2']);
+        
+        const text = `${user.id} ${user.name} (${user.email})`;
+        const textEl = createElement('span', [], {}, text);
+
+        const deleteBtn = createElement('button', ['btn', 'btn-danger', 'btn-sm'], {}, 'Видалити');
+        deleteBtn.addEventListener('click', () => {
+            userLibrary.remove(user.id);
+            renderUserList();
+        });
+
+        item.append(textEl, deleteBtn);
+        listContainer.appendChild(item);
+    });
 }

@@ -1,7 +1,8 @@
 import './styles/main.scss';
-import { renderApp } from './ui/render';
+import { renderApp, renderUserList } from './ui/render';
 import { renderBookForm } from './ui/components/BookForm';
 import { renderUserForm } from './ui/components/UserForm';
+import { renderBookList } from './ui/components/BookList';
 import { Library } from './services/Library';
 import { Book } from './models/Book';
 import { User } from './models/User';
@@ -13,4 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderApp();
     renderBookForm();
     renderUserForm();
+    renderBookList();
+    renderUserList();
 });
