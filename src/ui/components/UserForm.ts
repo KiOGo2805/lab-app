@@ -1,4 +1,8 @@
 import { createElement } from '../render';
+import { Validation } from '../../utils/validators';
+import { User } from '../../models/User';
+import { generateId } from '../../utils/idGenerator';
+import { userLibrary } from '../../index';
 
 export function renderUserForm(): void {
     const container = document.getElementById('user-form-container');
@@ -10,15 +14,33 @@ export function renderUserForm(): void {
     const nameInput = createInput('text', 'user-name', "Ім'я");
     const emailInput = createInput('email', 'user-email', 'Email');
     
+    const errorDiv = createElement('div', ['text-danger', 'small', 'd-none']);
+
     const submitBtn = createElement('button', ['btn', 'btn-success', 'align-self-start'], {}, 'Додати Користувача');
     submitBtn.type = 'submit';
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('Форма користувача відправлена!');
+        errorDiv.classList.add('d-none');
+
+        const name = nameInput.value;
+        const email = emailInput.value;
+
+        if (!Validation.isRequired(name) || !Validation.isRequired(email)) {
+            errorDiv.textContent = "Всі поля є обов'язковими для заповнення.";
+            errorDiv.classList.remove('d-none');
+            return;
+        }
+
+        const newUser = new User(generateId(), name, email);
+        userLibrary.add(newUser);
+
+        form.reset();
+        
+        // TODO: Тут ми пізніше додамо виклик функції оновлення списку користувачів
     });
 
-    form.append(nameInput, emailInput, submitBtn);
+    form.append(nameInput, emailInput, errorDiv, submitBtn);
     container.appendChild(form);
 }
 
