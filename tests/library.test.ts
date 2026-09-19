@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Library } from '../src/services/Library';
+import { Library } from '../src/services/Library.ts';
 
 const localStorageMock = (() => {
     let store: Record<string, string> = {};

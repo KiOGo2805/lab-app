@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Validation } from '../src/utils/validators';
+import { Validation } from '../src/utils/validators.ts';
 
 describe('Validation Module (Пункт 13)', () => {
     it('isRequired має повертати true для заповненого рядка', () => {
