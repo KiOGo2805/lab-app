@@ -44,6 +44,9 @@ function createSectionCard(id: string, titleText: string): HTMLDivElement {
     return card;
 }
 
+let userCurrentPage = 1;
+const USER_ITEMS_PER_PAGE = 5;
+
 export function renderUserList(): void {
     const container = document.getElementById('user-list-container');
     if (!container) return;
@@ -55,17 +58,30 @@ export function renderUserList(): void {
         container.appendChild(listContainer);
     }
     
-    listContainer.innerHTML = '';
-    const users = userLibrary.getAll();
+    let paginationContainer = document.getElementById('user-pagination');
+    if (!paginationContainer) {
+        paginationContainer = createElement('div', ['d-flex', 'justify-content-center', 'gap-2', 'mt-3']);
+        paginationContainer.id = 'user-pagination';
+        container.appendChild(paginationContainer);
+    }
 
-    if (users.length === 0) {
+    listContainer.innerHTML = '';
+    paginationContainer.innerHTML = '';
+
+    const users = userLibrary.getAll();
+    const totalPages = Math.ceil(users.length / USER_ITEMS_PER_PAGE) || 1;
+    if (userCurrentPage > totalPages) userCurrentPage = totalPages;
+
+    const startIndex = (userCurrentPage - 1) * USER_ITEMS_PER_PAGE;
+    const paginatedUsers = users.slice(startIndex, startIndex + USER_ITEMS_PER_PAGE);
+
+    if (paginatedUsers.length === 0) {
         listContainer.appendChild(createElement('p', ['text-muted'], {}, 'Список користувачів порожній.'));
         return;
     }
 
-    users.forEach((user: User) => {
+    paginatedUsers.forEach((user: User) => {
         const item = createElement('div', ['d-flex', 'justify-content-between', 'align-items-center', 'border-bottom', 'pb-2']);
-        
         const text = `${user.id} ${user.name} (${user.email})`;
         const textEl = createElement('span', [], {}, text);
 
@@ -78,4 +94,24 @@ export function renderUserList(): void {
         item.append(textEl, deleteBtn);
         listContainer.appendChild(item);
     });
+
+    if (totalPages > 1) {
+        const prevBtn = createElement('button', ['btn', 'btn-outline-secondary', 'btn-sm'], {}, 'Попередня');
+        prevBtn.disabled = userCurrentPage === 1;
+        prevBtn.onclick = () => {
+            userCurrentPage--;
+            renderUserList();
+        };
+
+        const pageInfo = createElement('span', ['align-self-center', 'small'], {}, `Сторінка ${userCurrentPage} з ${totalPages}`);
+
+        const nextBtn = createElement('button', ['btn', 'btn-outline-secondary', 'btn-sm'], {}, 'Наступна');
+        nextBtn.disabled = userCurrentPage === totalPages;
+        nextBtn.onclick = () => {
+            userCurrentPage++;
+            renderUserList();
+        };
+
+        paginationContainer.append(prevBtn, pageInfo, nextBtn);
+    }
 }
