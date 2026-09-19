@@ -32,7 +32,7 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                quietDeps: true // Глушить усі попередження з папки node_modules
+                quietDeps: true
               }
             }
           }
