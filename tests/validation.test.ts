@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { Validation } from '../src/utils/validators.ts';
 
-describe('Validation Module (Пункт 13)', () => {
+describe('Validation Module', () => {
     it('isRequired має повертати true для заповненого рядка', () => {
         expect(Validation.isRequired('Clean Code')).to.be.true;
     });

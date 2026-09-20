@@ -13,7 +13,7 @@ const localStorageMock = (() => {
 
 global.localStorage = localStorageMock as any;
 
-describe('Library Class (Generics - Пункт 9)', () => {
+describe('Library Class', () => {
     let library: Library<{ id: string; title: string }>;
 
     beforeEach(() => {
@@ -27,7 +27,7 @@ describe('Library Class (Generics - Пункт 9)', () => {
         expect(library.getAll()[0].title).to.equal('Code Complete');
     });
 
-    it('має знаходити об\'єкт за ID (findById)', () => {
+    it('має знаходити об\'єкт за ID', () => {
         library.add({ id: '1', title: 'Code Complete' });
         library.add({ id: '2', title: 'Clean Code' });
         
@@ -36,14 +36,14 @@ describe('Library Class (Generics - Пункт 9)', () => {
         expect(found?.title).to.equal('Clean Code');
     });
 
-    it('має видаляти об\'єкт за ID (remove)', () => {
+    it('має видаляти об\'єкт за ID', () => {
         library.add({ id: '1', title: 'Code Complete' });
         library.remove('1');
         
         expect(library.getAll().length).to.equal(0);
     });
 
-    it('має коректно оновлювати об\'єкт (update)', () => {
+    it('має коректно оновлювати об\'єкт', () => {
         library.add({ id: '1', title: 'Old Title' });
         library.update({ id: '1', title: 'New Title' });
         

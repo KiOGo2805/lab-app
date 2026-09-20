@@ -36,7 +36,7 @@ export function renderBookForm(): void {
         }
 
         if (!Validation.isValidYear(year)) {
-            errorDiv.textContent = "Введіть коректний рік (наприклад, 2024).";
+            errorDiv.textContent = "Введіть коректний рік.";
             errorDiv.classList.remove('d-none');
             return;
         }

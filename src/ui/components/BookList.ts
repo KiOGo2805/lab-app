@@ -126,7 +126,6 @@ function renderListItems(searchQuery: string): void {
         listContainer.appendChild(item);
     });
 
-    // Відмальовка кнопок пагінації
     if (totalPages > 1) {
         const prevBtn = createElement('button', ['btn', 'btn-outline-secondary', 'btn-sm'], {}, 'Попередня');
         prevBtn.disabled = currentPage === 1;
