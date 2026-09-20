@@ -1,4 +1,5 @@
 import { createElement } from '../render';
+import { Validation } from '../../utils/validators';
 import { bookLibrary, userLibrary } from '../../index';
 import { Book } from '../../models/Book';
 import { NotificationService } from '../../services/NotificationService';
@@ -58,7 +59,6 @@ function renderListItems(searchQuery: string): void {
         );
     }
 
-    // Логіка пагінації
     const totalPages = Math.ceil(books.length / ITEMS_PER_PAGE) || 1;
     if (currentPage > totalPages) currentPage = totalPages;
 
@@ -95,6 +95,10 @@ function renderListItems(searchQuery: string): void {
             actionBtn = createElement('button', ['btn', 'btn-primary', 'btn-sm'], {}, 'Позичити');
             actionBtn.addEventListener('click', () => {
                 NotificationService.promptUserId((userId) => {
+                    if (!Validation.isValidUserId(userId)) {
+                        NotificationService.notifyError('ID користувача має містити виключно цифри!');
+                        return;
+                    }
                     const user = userLibrary.findById(userId);
                     if (!user) {
                         NotificationService.notifyError('Користувача з таким ID не знайдено!');
