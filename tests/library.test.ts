@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import 'mocha';
 import { Library } from '../src/services/Library.ts';
 
 const localStorageMock = (() => {
@@ -11,7 +12,7 @@ const localStorageMock = (() => {
     };
 })();
 
-global.localStorage = localStorageMock as any;
+(globalThis as any).localStorage = localStorageMock as any;
 
 describe('Library Class', () => {
     let library: Library<{ id: string; title: string }>;
