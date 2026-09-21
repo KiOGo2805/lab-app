@@ -1,5 +1,6 @@
 import { userLibrary } from '../index';
 import { User } from '../models/User';
+import { NotificationService } from '../services/NotificationService';
 
 export function createElement<K extends keyof HTMLElementTagNameMap>(
     tag: K,
@@ -87,6 +88,11 @@ export function renderUserList(): void {
 
         const deleteBtn = createElement('button', ['btn', 'btn-danger', 'btn-sm'], {}, 'Видалити');
         deleteBtn.addEventListener('click', () => {
+            if (user.borrowedBooks.length > 0) {
+                NotificationService.notifyError('Неможливо видалити користувача, поки він має позичені книги.');
+                return;
+            }
+
             userLibrary.remove(user.id);
             renderUserList();
         });
