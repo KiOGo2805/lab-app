@@ -2,7 +2,7 @@
   "name": "lab-app",
   "version": "1.0.0",
   "description": "",
-  "main": "webpack.config.js",
+  "main": "vite.config.mjs",
   "directories": {
     "test": "tests"
   },
